@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.*;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -146,5 +147,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(User user) {
         userDao.updateByPrimaryKeySelective(user);
+    }
+
+    /**
+     * 通过用户名查询
+     * @param username
+     */
+    @Override
+    public User findOneByname(String username) {
+        //创建条件
+        UserQuery userQuery = new UserQuery();
+        UserQuery.Criteria criteria = userQuery.createCriteria();
+        criteria.andUsernameEqualTo(username);
+        User user = (User) userDao.selectByExample(userQuery);
+        return user;
     }
 }

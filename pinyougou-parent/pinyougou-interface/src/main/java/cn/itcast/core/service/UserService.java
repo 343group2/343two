@@ -15,4 +15,7 @@ public interface UserService {
 
     //通过id修改用户状态
     void update(User user);
+
+    //通过用户名查询
+    User findOneByname(String username);
 }
