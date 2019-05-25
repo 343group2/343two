@@ -2,13 +2,18 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.dao.user.UserDao;
 import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserQuery;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import entity.PageResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.*;
 import java.util.Date;
@@ -18,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  * 用户管理
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
 
@@ -84,7 +90,8 @@ public class UserServiceImpl implements UserService {
                 //添加时间
                 user.setCreated(new Date());
                 user.setUpdated(new Date());
-
+                //添加用户状态
+                user.setStatus("Y");
                 //保存
                 userDao.insertSelective(user);
             }else{
@@ -94,5 +101,50 @@ public class UserServiceImpl implements UserService {
             //
             throw new RuntimeException("风控验证码失效");
         }
+    }
+
+    /**
+     * 分页查询用户列表
+     * @param pageNum
+     * @param pageSize
+     * @param user
+     * @return
+     */
+    @Override
+    public PageResult search(Integer pageNum, Integer pageSize, User user) {
+        PageHelper.startPage(pageNum, pageSize);
+
+        //创建条件
+        UserQuery userQuery = new UserQuery();
+        UserQuery.Criteria criteria = userQuery.createCriteria();
+
+        //判断用户名称
+        if(null != user.getUsername() && !"".equals(user.getUsername())){
+            criteria.andUsernameEqualTo("%" + user.getUsername() + "%");
+        }
+        //判断用户状态
+        if(null != user.getStatus() && !"".equals(user.getStatus())){
+            criteria.andStatusEqualTo(user.getStatus());
+        }
+        Page<User> brandPage = (Page<User>) userDao.selectByExample(userQuery);
+
+        PageResult pageResult = new PageResult(brandPage.getTotal(), brandPage.getResult());
+        return pageResult;
+
+    }
+
+    //查询一个用户
+    @Override
+    public User findOne(Long id) {
+        return userDao.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 通过id修改用户状态
+     * @param user
+     */
+    @Override
+    public void update(User user) {
+        userDao.updateByPrimaryKeySelective(user);
     }
 }
