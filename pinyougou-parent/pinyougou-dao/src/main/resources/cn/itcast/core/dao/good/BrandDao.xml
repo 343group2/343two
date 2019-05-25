@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="first_char" property="firstChar" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +67,7 @@
   </sql>
   <sql id="Base_Column_List" >
     <if test="fields == null" >
-      id, name, first_char
+      id, name, first_char,state
     </if>
     <if test="fields != null" >
       ${fields}
@@ -88,7 +89,7 @@
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
-    id,name,first_char
+    id,name,first_char,state
     from tb_brand
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -105,7 +106,7 @@
   <insert id="insert" parameterType="cn.itcast.core.pojo.good.Brand" >
     insert into tb_brand (id, name, first_char
       )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{firstChar,jdbcType=VARCHAR}
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{firstChar,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.itcast.core.pojo.good.Brand" >
@@ -174,13 +175,17 @@
       <if test="firstChar != null" >
         first_char = #{firstChar,jdbcType=VARCHAR},
       </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.itcast.core.pojo.good.Brand" >
     update tb_brand
     set name = #{name,jdbcType=VARCHAR},
-      first_char = #{firstChar,jdbcType=VARCHAR}
+      first_char = #{firstChar,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 

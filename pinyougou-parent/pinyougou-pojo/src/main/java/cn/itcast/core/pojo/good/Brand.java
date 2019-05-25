@@ -14,6 +14,28 @@ public class Brand implements Serializable {
      * 品牌首字母
      */
     private String firstChar;
+    /**
+     * 审核状态
+     */
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", firstChar='" + firstChar + '\'' +
+                ", state='" + state + '\'' +
+                '}';
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -39,20 +61,6 @@ public class Brand implements Serializable {
 
     public void setFirstChar(String firstChar) {
         this.firstChar = firstChar == null ? null : firstChar.trim();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", firstChar=").append(firstChar);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 
     @Override

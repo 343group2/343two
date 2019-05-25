@@ -31,4 +31,8 @@ app.service("brandService",function($http){
 	this.selectOptionList = function(){
 		return $http.get("../brand/selectOptionList.do");
 	}
+	/*品牌审核*/
+    this.updateStatus = function(ids,status){
+        return $http.get('../brand/updateStatus.do?ids='+ids+"&status="+status);
+    }
 });
