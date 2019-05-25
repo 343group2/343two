@@ -2,6 +2,7 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.dao.specification.SpecificationDao;
 import cn.itcast.core.dao.specification.SpecificationOptionDao;
+import cn.itcast.core.pojo.good.Brand;
 import cn.itcast.core.pojo.specification.Specification;
 import cn.itcast.core.pojo.specification.SpecificationOption;
 import cn.itcast.core.pojo.specification.SpecificationOptionQuery;
@@ -96,5 +97,19 @@ public class SpecificationServiceImpl implements  SpecificationService {
     @Override
     public List<Map> selectOptionList() {
         return specificationDao.selectOptionList();
+    }
+    //开始审核
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        Specification spec = new Specification();
+        spec.setState(status);
+        if(ids!=null&&ids.length>0){
+            for (Long id : ids) {
+                spec.setId(id);
+                specificationDao.updateByPrimaryKeySelective(spec);
+            }
+
+        }
+
     }
 }

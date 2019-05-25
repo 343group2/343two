@@ -20,6 +20,19 @@ import java.util.Map;
 @RequestMapping("/specification")
 public class SpecificationController {
 
+    //开始审核
+    @RequestMapping("/updateStatus")
+    public Result updateStatus(Long[] ids,String status){
+
+        try {
+            specificationService.updateStatus(ids,status);
+            return new Result(true,"审核成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"审核失败");
+        }
+
+    }
 
 
     @Reference
