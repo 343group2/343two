@@ -3,6 +3,7 @@ package cn.itcast.core.service;
 import cn.itcast.core.dao.good.BrandDao;
 import cn.itcast.core.pojo.good.Brand;
 import cn.itcast.core.pojo.good.BrandQuery;
+import cn.itcast.core.pojo.good.Goods;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -10,8 +11,12 @@ import com.github.pagehelper.PageInfo;
 import entity.PageResult;
 import org.csource.fastdfs.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +126,20 @@ public class BrandServiceImpl implements BrandService {
         criteria.andIdIn(Arrays.asList(ids));
         //批量删除
         brandDao.deleteByExample(brandQuery);
+    }
+
+    //开始审核
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        Brand brand = new Brand();
+        brand.setState(status);
+        if(ids!=null&&ids.length>0){
+           for (Long id : ids) {
+               brand.setId(id);
+               brandDao.updateByPrimaryKeySelective(brand);
+           }
+       }
+
     }
 
 

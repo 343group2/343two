@@ -84,6 +84,20 @@ public class BrandController  {
         }
 
     }
+
+    //开始审核
+    @RequestMapping("/updateStatus")
+    public Result updateStatus(Long[] ids,String status){
+
+        try {
+           brandService.updateStatus(ids,status);
+            return new Result(true,"审核成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"审核失败");
+        }
+
+    }
     //查询一个品牌
     @RequestMapping("/findOne")
     public Brand findOne(Long id){
@@ -96,4 +110,6 @@ public class BrandController  {
     public List<Map> selectOptionList(){
         return brandService.selectOptionList();
     }
+
+
 }
