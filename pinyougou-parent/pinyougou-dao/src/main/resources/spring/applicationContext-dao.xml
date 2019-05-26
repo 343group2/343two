@@ -29,4 +29,10 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="cn.itcast.core.dao" />
 	</bean>
+	<bean id="idWorker" class="cn.itcast.common.utils.IdWorker">
+		<!-- 进程ID -->
+		<constructor-arg index="0" value="0"></constructor-arg>
+		<!-- 数据中心ID -->
+		<constructor-arg index="1" value="0"></constructor-arg>
+	</bean>
 </beans>

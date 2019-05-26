@@ -70,15 +70,11 @@ app.controller('goodsController' ,function($scope,$controller,$location,typeTemp
 			return false;
 		}
 	}
-	
+
 	//保存 
 	$scope.save=function(){	
 		// 再添加之前，获得富文本编辑器中的内容。
 	        $scope.entity.goodsDesc.introduction=editor.html();
-
-
-
-
         var serviceObject;//服务层对象
 		if($scope.entity.goods.id!=null){//如果有ID
 			serviceObject=goodsService.update( $scope.entity ); //修改  
@@ -98,7 +94,28 @@ app.controller('goodsController' ,function($scope,$controller,$location,typeTemp
 			}		
 		);				
 	}
-	
+    $scope.seckillSave=function(){
+        // 再添加之前，获得富文本编辑器中的内容。
+        $scope.entity.goodsDesc.introduction=editor.html();
+        var serviceObject;//服务层对象
+        if($scope.entity.goods.id!=null){//如果有ID
+            serviceObject=goodsService.save( $scope.entity ); //修改
+        }else{
+            serviceObject=goodsService.add( $scope.entity  );//增加
+        }
+        serviceObject.success(
+            function(response){
+                if(response.flag){
+                    //重新查询
+                    alert(response.message);
+                    //商品列表页面
+                    location.href="goods.html";
+                }else{
+                    alert(response.message);
+                }
+            }
+        );
+    }
 	 
 	//批量删除 
 	$scope.dele=function(){			
