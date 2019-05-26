@@ -21,6 +21,18 @@ public class TypeTemplateController {
 
     @Reference
     private TypeTemplateService typeTemplateService;
+    /*审核状态*/
+    @RequestMapping("updateStatus")
+    public Result updateStatus(Long[] ids,String status){
+        try {
+            typeTemplateService.updateStatus(ids,status);
+            return new Result(true,"审核成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"审核失败");
+        }
+
+    }
 
     //查询
     @RequestMapping("/search")
