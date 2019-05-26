@@ -24,7 +24,7 @@ public class GoodsController {
     //保存商品
     @RequestMapping("/add")
     public Result add(@RequestBody GoodsVo vo){
-
+        System.out.println("测试");
         try {
             //商家ID
             String name = SecurityContextHolder.getContext().getAuthentication().getName();
