@@ -18,13 +18,14 @@ import vo.GoodsVo;
 @RequestMapping("/goods")
 public class GoodsController {
 
+
     @Reference
     private GoodsService goodsService;
 
     //保存商品
     @RequestMapping("/add")
     public Result add(@RequestBody GoodsVo vo){
-        System.out.println("测试");
+        System.out.println("好难");
         try {
             //商家ID
             String name = SecurityContextHolder.getContext().getAuthentication().getName();
