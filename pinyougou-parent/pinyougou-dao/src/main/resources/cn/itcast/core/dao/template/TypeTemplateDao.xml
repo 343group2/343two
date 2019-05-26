@@ -7,6 +7,8 @@
     <result column="spec_ids" property="specIds" jdbcType="VARCHAR" />
     <result column="brand_ids" property="brandIds" jdbcType="VARCHAR" />
     <result column="custom_attribute_items" property="customAttributeItems" jdbcType="VARCHAR" />
+<!--逆向工程的审核-->
+    <result column="state" property="state" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
