@@ -12,6 +12,27 @@ public class Specification implements Serializable {
      * 名称
      */
     private String specName;
+    /**
+     * 审核状态
+     */
+    private   String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "Specification{" +
+                "id=" + id +
+                ", specName='" + specName + '\'' +
+                ", state='" + state + '\'' +
+                '}';
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -29,19 +50,6 @@ public class Specification implements Serializable {
 
     public void setSpecName(String specName) {
         this.specName = specName == null ? null : specName.trim();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", specName=").append(specName);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 
     @Override

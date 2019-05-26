@@ -55,7 +55,7 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 	/*审核*/
     // 显示状态
     $scope.status = ["未审核","审核通过","审核未通过","关闭"];
-    // 品牌审核的方法:
+    //规格审核的方法:
     $scope.updateStatus = function(status){
         specificationService.updateStatus($scope.selectIds,status).success(function(response){
             if(response.flag){

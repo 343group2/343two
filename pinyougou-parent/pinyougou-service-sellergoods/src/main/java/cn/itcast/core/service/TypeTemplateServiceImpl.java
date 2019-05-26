@@ -118,4 +118,17 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
         put(options,List)*/
         return listMap;
     }
+    /*审核状态*/
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        TypeTemplate typeTemplate = new TypeTemplate();
+        typeTemplate.setState(status);
+        if(ids!=null && ids.length>0){
+            for (Long id : ids) {
+                typeTemplate.setId(id);
+                typeTemplateDao.updateByPrimaryKeySelective(typeTemplate);
+            }
+        }
+
+    }
 }

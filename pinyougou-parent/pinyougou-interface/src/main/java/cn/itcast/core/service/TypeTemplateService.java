@@ -16,4 +16,6 @@ public interface TypeTemplateService {
     void update(TypeTemplate tt);
 
     List<Map> findBySpecList(Long id);
+    //审核状态
+   void updateStatus(Long[] ids, String status);
 }
