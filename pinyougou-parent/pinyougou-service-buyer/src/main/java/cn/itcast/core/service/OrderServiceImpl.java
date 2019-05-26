@@ -5,17 +5,18 @@ import cn.itcast.core.dao.item.ItemDao;
 import cn.itcast.core.dao.log.PayLogDao;
 import cn.itcast.core.dao.order.OrderDao;
 import cn.itcast.core.dao.order.OrderItemDao;
-import cn.itcast.core.pojo.good.Goods;
 import cn.itcast.core.pojo.item.Item;
 import cn.itcast.core.pojo.log.PayLog;
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderItem;
+import cn.itcast.core.pojo.order.OrderItemQuery;
 import cn.itcast.core.pojo.order.OrderQuery;
+import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import entity.PageResult;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import vo.Cart;
@@ -149,31 +150,52 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    /**
+     * 分页查询
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param order
+     * @return
+     */
     @Override
-    public PageResult search(Integer page, Integer rows, Order order) {
-        PageHelper.startPage(page,rows);
-        PageHelper.orderBy("order_id desc");
-        OrderQuery orderQuery=new OrderQuery();
+    public PageResult search(Integer pageNum, Integer pageSize, Order order) {
+        PageHelper.startPage(pageNum, pageSize);
+        //排序
+        PageHelper.orderBy("create_time desc");
+
+        //创建条件
+        OrderQuery orderQuery = new OrderQuery();
         OrderQuery.Criteria criteria = orderQuery.createCriteria();
-        //判断查询商品的状态
-        if(null != order.getStatus() && !"".equals(order.getStatus())){
+
+        if (null != order.getSellerId() && !"".equals(order.getSellerId())) {
+            criteria.andSellerIdEqualTo("%" + order.getSellerId() + "%");
+        }
+
+        if (null != order.getPaymentType() && !"".equals(order.getPaymentType())) {
+            criteria.andPaymentTypeEqualTo(order.getPaymentType());
+        }
+
+        if (null != order.getStatus() && !"".equals(order.getStatus())) {
             criteria.andStatusEqualTo(order.getStatus());
         }
-        //订单id
 
-        //商家的ID 查询当前商家自己的商品集合  商家后台调用
-        if(null != order.getOrderId()&&!"".equals(order.getOrderId())){
-           criteria.andOrderIdEqualTo(order.getOrderId());
-        }
+        Page<Order> brandPage = (Page<Order>) orderDao.selectByExample(orderQuery);
 
+        PageResult pageResult = new PageResult(brandPage.getTotal(), brandPage.getResult());
+        return pageResult;
+    }
 
-        //商家的ID 查询当前商家自己的订单集合
-        if(null != order.getSellerId()){
-            criteria.andSellerIdEqualTo(order.getSellerId());
+    /**
+     * 根据订单id查询订单详情
+     * @param orderId
+     * @return
+     */
+    @Override
+    public List<OrderItem> findByOrderId(Long orderId) {
+        OrderItemQuery orderItemQuery = new OrderItemQuery();
+        OrderItemQuery.Criteria criteria = orderItemQuery.createCriteria().andOrderIdEqualTo(orderId);
+        return orderItemDao.selectByExample(orderItemQuery);
 
-        }
-        //查询
-        Page<Order> p = (Page<Order>) orderDao.selectByExample(orderQuery);
-        return new PageResult(p.getTotal(),p.getResult());
     }
 }
