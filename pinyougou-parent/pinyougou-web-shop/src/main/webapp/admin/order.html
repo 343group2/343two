@@ -50,8 +50,8 @@
                                         <a href="order.html"  class="btn btn-default">新建</a>
                                         <a href="order.html"  class="btn btn-default">订单统计</a>
                                         <a href="order.html"  class="btn btn-default">销售折线图</a>
-                                        <a href="order.html"  class="btn btn-default">订单发货</a>
                                         <a href="order.html"  class="btn btn-default">秒杀订单查询</a>
+                                        <button type="button" ng-click="updateStatus('3')" class="btn btn-default" title="确认发货" ><i class="fa fa-check"></i>订单发货</button>
                                         <button type="button" class="btn btn-default" title="修改" ><i class="fa fa-trash-o"></i> 订单修改</button>
                                         <button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽</button>
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
@@ -98,7 +98,7 @@
 			                      </thead>
 			                      <tbody>
 			                          <tr ng-repeat="entity in list">
-			                              <td><input  type="checkbox"></td>			                              
+			                              <td><input  type="checkbox" ng-click="updateSelection($event,entity.orderId)"></td>
 				                          <td>{{entity.orderId}}</td>
 									      <td>{{entity.payment}}</td>
 									      <td>{{entity.paymentType==1?"在线支付":"货到付款"}}</td>

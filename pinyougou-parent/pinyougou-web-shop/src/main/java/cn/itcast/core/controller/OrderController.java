@@ -1,6 +1,5 @@
 package cn.itcast.core.controller;
 
-import cn.itcast.core.pojo.good.Goods;
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.service.OrderService;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -21,7 +20,7 @@ public class OrderController {
 
     @Reference
     private OrderService orderService;
-     @RequestMapping("search")
+     @RequestMapping("/search")
     public PageResult search(Integer page, Integer rows, @RequestBody Order order){
 
          //当前登陆人
@@ -29,5 +28,17 @@ public class OrderController {
          order.setSellerId(name);
           return orderService.search(page,rows,order);
      }
+
+    @RequestMapping("/updateStatus")
+    public Result updateStatus(Long[] ids,String status){
+         try {
+             orderService.updateStatus(ids,status);
+             return new Result(true,"确认订单成功");
+         } catch (Exception e) {
+             e.printStackTrace();
+             return new Result(false,"确认订单失败");
+         }
+     }
+
 
 }

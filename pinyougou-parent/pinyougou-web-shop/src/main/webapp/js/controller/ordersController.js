@@ -18,6 +18,19 @@ app.controller('ordersController' ,function($scope,$controller,$location,typeTem
     $scope.status1 = ["未付款","已付款","未发货","已发货","交易成功","交易关闭","待评价"];
 
 
+  //确认发货
+    $scope.updateStatus = function(status1){
+        ordersService.updateStatus($scope.selectIds,status1).success(function(response){
+            if(response.flag){
+                $scope.reloadList();//刷新列表
+                $scope.selectIds = [];
+            }else{
+                alert(response.message);
+            }
+        });
+    }
+
+});
 
 
 
@@ -131,19 +144,7 @@ app.controller('ordersController' ,function($scope,$controller,$location,typeTem
 	}
 	
 	 
-	//批量删除 
-	$scope.dele=function(){			
-		//获取选中的复选框			
-		goodsService.dele( $scope.selectIds ).success(
-			function(response){
-				if(response.flag){
-					$scope.reloadList();//刷新列表
-					$scope.selectIds = [];
-				}						
-			}		
-		);				
-	}
-	
+
 
 	// $scope.entity={goods:{},goodsDesc:{},itemList:[]}
 	//上传
@@ -306,4 +307,4 @@ app.controller('ordersController' ,function($scope,$controller,$location,typeTem
 
 
 
-});	
+

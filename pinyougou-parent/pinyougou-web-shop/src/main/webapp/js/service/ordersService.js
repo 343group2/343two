@@ -26,7 +26,13 @@ app.service('ordersService',function($http){
 		return $http.get('../goods/delete.do?ids='+ids);
 	}
 	//搜索
-	this.search=function(page,rows,searchEntity){
-		return $http.post('../orders/search.do?page='+page+"&rows="+rows, searchEntity);
-	}    	
+	this.search=function(page,rows,searchEntity) {
+        return $http.post('../orders/search.do?page=' + page + "&rows=" + rows, searchEntity);
+    }
+    /*确认发货*/
+    this.updateStatus = function(ids,status1){
+        return $http.get('../orders/updateStatus.do?ids='+ids+"&status="+status1);
+    }
+
+
 });

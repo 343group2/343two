@@ -11,8 +11,6 @@ import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderItem;
 import cn.itcast.core.pojo.order.OrderItemQuery;
 import cn.itcast.core.pojo.order.OrderQuery;
-import cn.itcast.core.pojo.user.User;
-import cn.itcast.core.pojo.user.UserQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
